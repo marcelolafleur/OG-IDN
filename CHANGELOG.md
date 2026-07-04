@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [0.2.0] - 2026-07-03 12:00:00
+
+### Changed
+
+- Recalibrated the single-industry baseline to Indonesian data and stopped live API pulls from clobbering documented values. `ogidn/macro_params.py` now refreshes only `g_y_annual` from the World Bank (over a pre-pandemic **2000–2019** window, ≈4.0%, replacing the 2000–2024 window that folded in the COVID crash); every other macro parameter is a documented, point-in-time value held in `ogidn/ogidn_default_parameters.json`. Previously the connected run also pulled the debt ratios (World Bank QPSD), `gamma` (ILOSTAT), and `alpha_T`/`alpha_G` (IMF GFS) on every call, so the offline default and the connected run drifted apart.
+- Recalibrated the open-economy block: `zeta_K` 0.9 → 0.42 (normalized Chinn-Ito capital-account-openness index for Indonesia, validated against the Bank Indonesia IIP foreign-capital share of ~20%), `world_int_rate_annual` 0.04 → 0.05 (global risk-free rate plus a ~100 bp Indonesian sovereign premium), and `debt_ratio_ss` 0.50 → 0.40 (IMF Article IV medium-term anchor / current stance; the 60% ceiling in Law 17/2003 is a constraint, not a target). `initial_debt_ratio` 0.390 → 0.402 (IMF WEO general-government gross debt, 2024).
+- Enabled a **centered debt-elastic sovereign premium** `r_gov_DY2·(D/Y − 0.40)²` (`r_gov_DY2 = 0.04`, `r_gov_DY = -0.032`, `r_gov_shift` recentered -0.03377 → -0.04017). It prices debt overshoots along the transition without moving the steady state.
+- Retuned the packaged steady-state initial guesses to the recalibrated equilibrium (`initial_guess_r_SS` 0.04 → 0.0613, `initial_guess_TR_SS` 0.042 → 0.0077, `initial_guess_factor_SS` 71707 → 99933911), so the baseline steady state solves quickly instead of crawling OG-Core's guess sweep.
+- The recalibrated steady state matches Indonesia far better: the foreign-owned capital share falls from ~44% to ~17% (Bank Indonesia IIP ≈ 20%), the private return rises from ~4.3% to ~6.3%, `K/Y` falls from 4.4 to 3.6, and consumption rises to ~53% of GDP.
+
+### Added
+
+- `ogidn/update_baseline.py` regenerates the packaged single-industry JSON from the live calibration (UN demographics, the earnings profile `e`, and World Bank `g_y_annual`), so an offline run reproduces the connected one. Run with `uv run python -m ogidn.update_baseline`.
+- Tests for `update_baseline` and for the frozen-parameter / offline-safe behavior of `macro_params`.
+
 ## [0.1.0] - 2026-06-03 12:00:00
 
 ### Changed
