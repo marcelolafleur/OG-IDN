@@ -84,7 +84,7 @@ kernelspec:
 | $\alpha^{T}_{t}$                 | Transfers as a share of GDP                                             | [0.008...0.008]                                       |
 | $\eta_{j,s,t}$                   | Distribution of transfers                                               | Too large to report here, see default parameters JSON |
 | $\eta_{RM,j,s,t}$                | Distribution of remittances                                             | Too large to report here, see default parameters JSON |
-| $\alpha^{G}_{t}$                 | Government spending as a share of GDP                                   | [0.111...0.111]                                       |
+| $\alpha^{G}_{t}$                 | Government spending as a share of GDP                                   | [0.140...0.140]                                       |
 | $\alpha_{RM,1}$                  | Remittances as a share of GDP in initial period                         | 0.00E+00                                              |
 | $\alpha_{RM,T}$                  | Remittances as a share of GDP in long run                               | 0.00E+00                                              |
 | $g_{RM,t}$                       | Growth rate of remittances in initial periods                           | [0.000...0.000]                                       |

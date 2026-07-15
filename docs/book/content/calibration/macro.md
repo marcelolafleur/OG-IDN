@@ -17,7 +17,7 @@ As the default rate of labor augmenting technological change, $g_y$, we use the 
 | `initial_foreign_debt_ratio` | 0.262 | World Bank QPSD external creditors, 2024Q4 | No (frozen) |
 | `zeta_D` | 0.262 | = `initial_foreign_debt_ratio` | No (frozen) |
 | `alpha_T` | 0.00776 | IMF Government Finance Statistics, 2023 | No (frozen) |
-| `alpha_G` | 0.11130 | IMF Government Finance Statistics, 2023 | No (frozen) |
+| `alpha_G` | 0.14 | IMF WEO general-government expenditure basis, 2023–24 | No (frozen) |
 | `zeta_K` | 0.42 | Normalized Chinn-Ito index (2023), validated against the BI IIP | No (frozen) |
 | `world_int_rate_annual` | 0.05 | Global risk-free rate + Indonesian sovereign premium | No (frozen) |
 | `debt_ratio_ss` | 0.40 | IMF Article IV medium-term debt anchor | No (frozen) |
@@ -117,9 +117,12 @@ Aggregate (non-Social Security) transfers to households are set as a share of GD
 
 ### Government expenditures
 
-Government spending on goods and services are also set as a share of GDP with the parameter $\alpha_G$. We define government spending as:
+Government spending on goods and services is set as a share of GDP with the parameter $\alpha_G$. Conceptually it is government spending net of transfers, net interest, and social security:
     <center>Government Spending = Total Outlays - Transfers - Net Interest on Debt - Social Security</center>
-With this definition, the share of government expenditure to GDP is 11.13% in the current baseline, based on IMF Government Finance Statistics Statement of Operations data. As with `alpha_T`, the default target year is 2024, but the baseline uses the latest complete IMF year available at or before that year, which is currently 2023.
+
+We set `alpha_G = 0.14`. The value is built on the **IMF World Economic Outlook general-government basis** — the same basis used for revenue and for the debt anchors — so that the government's books are internally consistent. Indonesia's general-government expenditure is about 16.7% of GDP (WEO, 2023–24); netting out interest (~2%) and the transfers captured by $\alpha_T$ (0.78%) leaves roughly 14% for goods and services.
+
+An earlier value of 11.13% came from a narrower IMF Government Finance Statistics expense series (total expense ≈ 14.0% of GDP), which understates general-government spending relative to the WEO revenue and debt figures the rest of the calibration uses. That inconsistency produced a spurious primary surplus: with revenue near 15% and spending near 12%, the government ran a 2–4%-of-GDP surplus every period, and because the budget-closure rule does not engage until $t_{G1}$ (period 20), the baseline debt-to-GDP ratio drifted all the way from 0.40 down through zero to about −0.23 before the closure pulled it back — a government that is implausibly a net creditor mid-transition. Putting $\alpha_G$ on the WEO basis matches Indonesia's actual fiscal stance (a small primary surplus — 2023 was Indonesia's first in over a decade — and an overall deficit near 2% of GDP), so the baseline debt path now stays near Indonesia's ~40% level (it eases to about 0.31 by $t_{G1}$ and returns to the 0.40 steady state) instead of going negative. Because steady-state $G$ is set by the closure rule rather than by $\alpha_G$, this change leaves the steady state unchanged; it only corrects the transition.
 
 ## Steady-state validation
 
