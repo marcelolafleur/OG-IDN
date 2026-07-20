@@ -19,8 +19,6 @@ class Calibration:
         demographic_data_path=None,
         output_path=None,
         update_from_api=False,
-        imf_data_year=None,
-        imf_data_path=None,
     ):
         """
         Constructor for the Calibration class.
@@ -33,8 +31,6 @@ class Calibration:
             output_path (str): path to save output to
             update_from_api (bool): Set True if you want to pull updated
                 macro data from World Bank and UN APIs
-            imf_data_year (int | None): IMF target year override
-            imf_data_path (str | None): path to save IMF source data CSV
 
         Returns:
             None
@@ -62,8 +58,6 @@ class Calibration:
                 macro_data_start_year,
                 macro_data_end_year,
                 update_from_api=update_from_api,
-                imf_data_year=imf_data_year,
-                imf_data_path=imf_data_path,
             )
         except Exception as exc:
             warnings.warn(f"Macro params update failed: {exc}", stacklevel=2)
